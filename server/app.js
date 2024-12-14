@@ -1,6 +1,10 @@
 const express = require('express');
 const { spawn } = require('child_process');
+const cors = require('cors'); // Import the CORS package
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors()); 
 
 // Serve static files from the react app in connect-four-app/build
 app.use(express.static('../connect-four-app/build'));

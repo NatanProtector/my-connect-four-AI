@@ -7,7 +7,7 @@
     "install-all": "npm --prefix ./connect-four-app install && npm --prefix ./server install",
     "build": "npm --prefix ./connect-four-app run build",
     "start": "npm --prefix ./server run start",
-    "build-start": "npm --prefix ./connect-four-app run run build && npm --prefix ./server run start"
+    "build-start": "npm --prefix ./connect-four-app run build && npm --prefix ./server run start"
   },
   "keywords": [],
   "author": "Natan Protector",
