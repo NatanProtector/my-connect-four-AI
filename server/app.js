@@ -5,36 +5,39 @@ const app = express();
 // Serve static files from the react app in connect-four-app/build
 app.use(express.static('../connect-four-app/build'));
 
-const run_script = () => {
+const run_script = async () => {
     const scriptPath = './python_files/test.py';
     const args =  []; 
 
-    // Spawn a child process to run the Python script
-    const pythonProcess = spawn('python', [scriptPath, ...args]);
+    return new Promise((resolve, reject) => {
+        // Spawn a child process to run the Python script
+        const pythonProcess = spawn('python', [scriptPath, ...args]);
 
-    let output = '';
-    let error = '';
+        let output = '';
+        let error = '';
 
-    pythonProcess.stdout.on('data', (data) => {
-        output += data.toString();
-    });
+        pythonProcess.stdout.on('data', (data) => {
+            output += data.toString();
+        });
 
-    pythonProcess.stderr.on('data', (data) => {
-        error += data.toString();
-    });
+        pythonProcess.stderr.on('data', (data) => {
+            error += data.toString();
+        });
 
-    pythonProcess.on('close', (code) => {
-        console.log(`Python process exited with code ${code}`);
-        console.log('Output:', output);
-        if (error) {
-            console.error('Error:', error);
-        }
+        pythonProcess.on('close', (code) => {
+            if (error) {
+                reject(error); // Reject the Promise if there's an error
+            } else {
+                resolve(output); // Resolve the Promise with the output
+            }
+        });
     });
 }
 
-app.get ('/test', (req, res) => {
-    run_script();
-    res.send('test');
+app.get ('/test', async (req, res) => {
+    const result = await run_script();
+    console.log(result);
+    res.send(result);
 })
 
 app.get('/', (req, res) => {
