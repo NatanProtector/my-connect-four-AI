@@ -35,10 +35,14 @@ class ConnectFour:
 
     def is_valid_move(self, col):
         """Check if a move is valid (column is not full)."""
+        if self.game_over:
+            return False
         return self.board[0][col] == " "
 
     def get_possible_moves(self):
         """Return a list of all possible current moves (valid columns)."""
+        if self.game_over:
+            return []
         return [col for col in range(self.COLS) if self.is_valid_move(col)]
     
     def get_next_open_row(self, col):
