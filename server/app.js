@@ -57,11 +57,11 @@ const parse_board_string_for_AI = (board_string) => {
     return new_board_string
 }
 
-app.get ('/test', async (req, res) => {
-    const result = await run_script();
-    console.log(result);
-    res.send(result);
-})
+// app.get ('/test', async (req, res) => {
+//     const result = await run_script();
+//     // console.log(result);
+//     res.send(result);
+// })
 
 app.get('/', (req, res) => {
 
@@ -76,13 +76,13 @@ app.post('/move', async (req, res) => {
 
     board_string = parse_board_string_for_AI(board_string)
 
-    console.log("Move received:", col, board_string);
+    // console.log("Move received:", col, board_string);
     
     const result = await get_response_from_AI(board_string);   
     
-    console.log("Response:", result);
+    // console.log("Response:", result);
     
-    console.log("------------------------------------");
+    // console.log("------------------------------------");
     
     const response = {
         message: 'Move received',

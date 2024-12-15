@@ -27,6 +27,7 @@ const ConnectFour = () => {
   const [winner, setWinner] = useState(null);
   const [pendingMove, setPendingMove] = useState(null); // Track the move to transmit
 
+  const [lastMove, setLastMove] = useState(null);
 
   useEffect(() => {
     const handlePendingMove = async () => {
@@ -154,6 +155,7 @@ const ConnectFour = () => {
           setWinner(currentPlayer);
         }
         const new_player = currentPlayer === RED_TEXT ? YELLOW_TEXT : RED_TEXT
+        setLastMove({row,col});
         setBoard(newBoard);
         setCurrentPlayer(new_player);
         setPendingMove(col);
@@ -173,6 +175,7 @@ const ConnectFour = () => {
     setBoard(Array(ROWS).fill(Array(COLS).fill(null)));
     setCurrentPlayer(RED_TEXT);
     setWinner(null);
+    setLastMove(null)
   };
   const transmit_move = (col, board_string) => {
     const move = {
@@ -214,10 +217,12 @@ const ConnectFour = () => {
       <div className="board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="row">
-            {row.map((cell, colIndex) => (
+            {
+
+            row.map((cell, colIndex) => (
               <div
                 key={colIndex}
-                className={`cell ${cell}`}
+                className={`cell ${cell} ${lastMove && lastMove.col === colIndex && lastMove.row === rowIndex ? "highlight" : ""}`}
                 onClick={() => handleClick(colIndex)}
               ></div>
             ))}
