@@ -31,9 +31,9 @@ const run_script = async (scriptPath, args) => {
 
         pythonProcess.on('close', (code) => {
             if (error) {
-                reject(error); // Reject the Promise if there's an error
+                reject(error); 
             } else {
-                resolve(output); // Resolve the Promise with the output
+                resolve(output);
             }
         });
     });
@@ -57,32 +57,18 @@ const parse_board_string_for_AI = (board_string) => {
     return new_board_string
 }
 
-// app.get ('/test', async (req, res) => {
-//     const result = await run_script();
-//     // console.log(result);
-//     res.send(result);
-// })
-
 app.get('/', (req, res) => {
-
     // Serve the react app
     res.sendFile('index.html', { root: '../connect-four-app/build' });
 });
 
 app.post('/move', async (req, res) => {
 
-    // Get the move from the request body
     var {col, board_string} = req.body;
 
     board_string = parse_board_string_for_AI(board_string)
-
-    // console.log("Move received:", col, board_string);
     
     const result = await get_response_from_AI(board_string);   
-    
-    // console.log("Response:", result);
-    
-    // console.log("------------------------------------");
     
     const response = {
         message: 'Move received',

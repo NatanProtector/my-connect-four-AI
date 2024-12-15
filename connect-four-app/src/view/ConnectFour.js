@@ -9,7 +9,6 @@ import "./ConnectFour.css";
 const RED_SYMBOL = "R";
 const YELLOW_SYMBOL = "Y";
 
-
 const RED_TEXT = "Red";
 const YELLOW_TEXT = "Yellow";
 
@@ -200,11 +199,11 @@ const ConnectFour = () => {
           }
         })
         .then(data => {
-          resolve(data); // Resolve with the data
+          resolve(data);
         })
         .catch(error => {
           console.error('Error:', error);
-          reject(error); // Reject the promise if there is an error
+          reject(error); 
         });
     });
   };
