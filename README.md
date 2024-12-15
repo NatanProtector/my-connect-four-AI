@@ -1,11 +1,7 @@
-Here’s the updated version of your README, modified to reflect the live deployment URL:
-
----
-
 # My Connect Four AI
 
 ## Overview
-This is a web application for playing Connect Four against an "AI" player. The AI uses a Monte Carlo Tree Search (MCTS) algorithm, which I implemented as part of my reinforcement learning class. The project is currently deployed and accessible at [https://my-connect-four-ai.onrender.com/](https://my-connect-four-ai.onrender.com/).
+This is a web application for playing Connect Four against an "AI" player. The AI uses a Monte Carlo Tree Search (MCTS) algorithm, which I implemented as part of my reinforcement learning class. The project is currently deployed and accessible at [Natans's Connect Four](https://my-connect-four-ai.onrender.com/).
 
 ## Current Features
 - **AI Player:** Play against an AI powered by the Monte Carlo Tree Search (MCTS) algorithm.
@@ -30,24 +26,13 @@ The game is fully functional with:
 - Python (ensure it's added to your system PATH)
 
 ### Steps to Run Locally
-1. Clone the repository:
-
-   ```
-2. Install all dependencies, build the React app, and start the server:
+1. Clone the repository
+   
+3. Install all dependencies, build the React app, and start the server:
    ```bash
    npm run install-all
    npm run build-start
    ```
-
-### Scripts
-```json
-"scripts": {
-    "install-all": "npm --prefix ./connect-four-app install && npm --prefix ./server install",
-    "build": "npm --prefix ./connect-four-app run build",
-    "start": "npm --prefix ./server",
-    "build-start": "npm --prefix ./connect-four-app run build && npm --prefix ./server start"
-}
-```
 
 ## How It Works
 - The React app handles the game logic and user interface for Connect Four.
@@ -58,9 +43,6 @@ The game is fully functional with:
 - **AI Improvements:** Fine-tune the Monte Carlo Tree Search algorithm to enhance the AI's decision-making capabilities.
 - **UI/UX Enhancements:** Improve the user interface for better gameplay experience, including smoother animations and feedback.
 - **Bug Fixes:** Address any bugs in the AI, user interface, or gameplay experience.
-
-## License
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
