@@ -38,16 +38,6 @@ The game is fully functional with:
    npm run build-start
    ```
 
-### Scripts
-```json
-"scripts": {
-    "install-all": "npm --prefix ./connect-four-app install && npm --prefix ./server install",
-    "build": "npm --prefix ./connect-four-app run build",
-    "start": "npm --prefix ./server",
-    "build-start": "npm --prefix ./connect-four-app run build && npm --prefix ./server start"
-}
-```
-
 ## How It Works
 - The React app handles the game logic and user interface for Connect Four.
 - The Express server serves the React app and has routes for playing versus the AI.
@@ -57,9 +47,6 @@ The game is fully functional with:
 - **AI Improvements:** Fine-tune the Monte Carlo Tree Search algorithm to enhance the AI's decision-making capabilities.
 - **UI/UX Enhancements:** Improve the user interface for better gameplay experience, including smoother animations and feedback.
 - **Bug Fixes:** Address any bugs in the AI, user interface, or gameplay experience.
-
-## License
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
