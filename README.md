@@ -1,7 +1,3 @@
-Here’s the updated version of your README, modified to reflect the live deployment URL:
-
----
-
 # My Connect Four AI
 
 ## Overview
