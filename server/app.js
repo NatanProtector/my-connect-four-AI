@@ -44,7 +44,7 @@ const get_response_from_AI = async (board_string) => {
     // Parameter for the monte carlo tree search. determines balance between exploration and exploitation
     const c = 2
 
-    const epochs = 200
+    const epochs = 250
 
     const result = await run_script('./python_files/ConnectFourAI.py', [epochs, c, board_string]);
 

@@ -38,8 +38,8 @@ const ConnectFour = () => {
   
         console.log("Response: ", response_col.response);
 
-        // Wait for one second
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        // Wait for some time
+        // await new Promise((resolve) => setTimeout(resolve, 90));
 
         if (response_col.response) {
           const parsedInt = parseInt(response_col.response, 10);
