@@ -1,7 +1,11 @@
+Here’s the updated version of your README, modified to reflect the live deployment URL:
+
+---
+
 # My Connect Four AI
 
 ## Overview
-This is a web application for playing Connect Four against an "AI" player. The AI uses a Monte Carlo Tree Search (MCTS) algorithm, which I implemented as part of my reinforcement learning class. The project is currently in development.
+This is a web application for playing Connect Four against an "AI" player. The AI uses a Monte Carlo Tree Search (MCTS) algorithm, which I implemented as part of my reinforcement learning class. The project is currently deployed and accessible at [https://my-connect-four-ai.onrender.com/](https://my-connect-four-ai.onrender.com/).
 
 ## Current Features
 - **AI Player:** Play against an AI powered by the Monte Carlo Tree Search (MCTS) algorithm.
@@ -27,9 +31,7 @@ The game is fully functional with:
 
 ### Steps to Run Locally
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/my-connect-four-AI.git
-   cd my-connect-four-AI
+
    ```
 2. Install all dependencies, build the React app, and start the server:
    ```bash
@@ -49,7 +51,7 @@ The game is fully functional with:
 
 ## How It Works
 - The React app handles the game logic and user interface for Connect Four.
-- The Express server serves the React app and has routes for testing Python integration.
+- The Express server serves the React app and has routes for playing versus the AI.
 - The Python script implements the Monte Carlo Tree Search algorithm, which enables the AI player to decide its moves.
 
 ## Future Goals
@@ -64,4 +66,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 Thank you for checking out **My Connect Four AI**! Stay tuned for updates as the AI functionality is further developed.
 
---- 
+---
