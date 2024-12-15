@@ -144,6 +144,10 @@ def get_final_move(root, game):
     
     sorted_moves = sorted(moves_data, key=lambda x: x["ratio"], reverse=True)
     
+    # if game over return None
+    if game.game_over:
+        return None
+    
     best_move_index = 0
     
     if (game.turn == -1):

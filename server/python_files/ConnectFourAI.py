@@ -14,9 +14,6 @@ try:
 except:
     board = "------------------------------------------,-1"
 
-# Replace '-' with ' '
-board = board.replace("-", " ")
-
 game = ConnectFour(board)
 
 best_estimated_move = get_best_move(game, epochs, c)
@@ -25,4 +22,4 @@ game.make_move(best_estimated_move)
 
 result = game.get_board_state_as_string()
 
-game.print_board()
+print(best_estimated_move)

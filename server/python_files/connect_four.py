@@ -177,17 +177,15 @@ class ConnectFour:
 
         # Check piece count balance
         if abs(x_count - o_count) > 1:
-            print("Invalid board state: Piece count imbalance.")
-            return False
+            raise Exception("Invalid board state: Piece count imbalance.")
+            
 
         # Check that the first player (turn = 1) cannot play when pieces are not balanced
         if turn == 1 and x_count != o_count:
-            print("Invalid board state: First player cannot play when pieces are not balanced.")
-            return False
+            raise Exception("Invalid board state: First player cannot play when pieces are not balanced.")
         
         if turn == -1 and x_count - o_count != 1:
-            print("Invalid board state: Second player cannot play when there arent more x pieces then o.")
-            return False
+            raise Exception("Invalid board state: Second player cannot play when there arent more x pieces then o.")
 
         # Check for floating pieces (no gaps allowed below filled cells)
         for c in range(self.COLS):
@@ -196,8 +194,7 @@ class ConnectFour:
                 if board[r][c] != " ":
                     piece_found = True
                 elif piece_found and board[r][c] == " ":
-                    print("Invalid board state: Floating pieces are not allowed.")
-                    return False
+                    raise Exception("Invalid board state: Floating pieces are not allowed.")
 
         return True
 
@@ -205,16 +202,18 @@ class ConnectFour:
     def get_board_state_as_string(self):
         """Return a string representation of the board and current turn."""
         board_state = "".join(["".join(row) for row in self.board])
+        board_state = board_state.replace(" ", "-")
         return f"{board_state},{self.turn}"
 
     def load_from_string(self, state_string):
         """Load the board and current turn from a string."""
         board_state, turn = state_string.split(",")
+        board_state = board_state.replace("-", " ")
         board = [list(board_state[i:i + self.COLS]) for i in range(0, len(board_state), self.COLS)] 
         turn = int(turn)
         
-        if not self.is_legal_board(board, turn):
-            raise Exception("Invalid board state")
+        self.is_legal_board(board, turn)
+            
         
         self.board = board
         self.turn = turn
