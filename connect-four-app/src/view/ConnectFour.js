@@ -165,7 +165,8 @@ const ConnectFour = () => {
   }
 
   const handleClick = (col) => {
-    if (winner) return;
+    if (winner || currentPlayer !== RED_TEXT) 
+      return;
 
     make_move(col);
   };
