@@ -29,6 +29,7 @@ const ConnectFour = () => {
   const [pendingMove, setPendingMove] = useState(null); // Track the move to transmit
 
   const [lastMove, setLastMove] = useState(null);
+  const [fallPreviewCell, setFallPreviewCell] = useState(null); // Stores {row, col} for hover preview
 
   useEffect(() => {
     const handlePendingMove = async () => {
@@ -149,6 +150,29 @@ const ConnectFour = () => {
     return false;
   };
 
+  const findLowestEmptyRow = (col) => {
+    for (let r = ROWS - 1; r >= 0; r--) {
+      if (!board[r][col]) {
+        return r;
+      }
+    }
+    return -1; // Column is full
+  };
+
+  const handleColumnMouseEnter = (col) => {
+    if (winner || currentPlayer !== RED_TEXT) return; // Don't show preview if game over or not human's turn
+    const fallRow = findLowestEmptyRow(col);
+    if (fallRow !== -1) {
+      setFallPreviewCell({ row: fallRow, col: col });
+    } else {
+      setFallPreviewCell(null); // Column is full
+    }
+  };
+
+  const handleBoardMouseLeave = () => {
+    setFallPreviewCell(null);
+  };
+
   const make_move = (col) => {
     const newBoard = board.map((row) => [...row]);
     for (let row = ROWS - 1; row >= 0; row--) {
@@ -217,7 +241,7 @@ const ConnectFour = () => {
       {winner ? (
         <h2>
           <span style={{ color: winner === RED_TEXT ? "red" : "yellow" }}>
-            {winner}
+            {winner}{" "}
           </span>
           Wins!
         </h2>
@@ -225,28 +249,52 @@ const ConnectFour = () => {
         <h2>
           Current Player:{" "}
           <span
-            style={{ color: currentPlayer === RED_TEXT ? "red" : "yellow" }}
+            className={currentPlayer === RED_TEXT ? "red-text" : "yellow-text"}
           >
             {currentPlayer}
           </span>
         </h2>
       )}
-      <div className="board">
+      <div className="board" onMouseLeave={handleBoardMouseLeave}>
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="row">
-            {row.map((cell, colIndex) => (
-              <div
-                key={colIndex}
-                className={`cell ${cell} ${
-                  lastMove &&
-                  lastMove.col === colIndex &&
-                  lastMove.row === rowIndex
-                    ? "highlight"
-                    : ""
-                }`}
-                onClick={() => handleClick(colIndex)}
-              ></div>
-            ))}
+            {row.map((cell, colIndex) => {
+              const cellClasses = ["cell"];
+              if (cell) {
+                // 'Red' or 'Yellow'
+                cellClasses.push(cell);
+              }
+              if (
+                lastMove &&
+                lastMove.col === colIndex &&
+                lastMove.row === rowIndex
+              ) {
+                cellClasses.push("highlight");
+              }
+              if (
+                fallPreviewCell &&
+                fallPreviewCell.row === rowIndex &&
+                fallPreviewCell.col === colIndex
+              ) {
+                // Make sure it's an empty cell for preview
+                if (!board[rowIndex][colIndex]) {
+                  cellClasses.push(
+                    currentPlayer === RED_TEXT
+                      ? "fall-preview-red"
+                      : "fall-preview-yellow"
+                  );
+                }
+              }
+
+              return (
+                <div
+                  key={colIndex}
+                  className={cellClasses.join(" ")}
+                  onClick={() => handleClick(colIndex)}
+                  onMouseEnter={() => handleColumnMouseEnter(colIndex)}
+                ></div>
+              );
+            })}
           </div>
         ))}
       </div>
