@@ -1,10 +1,15 @@
-import ConnectFour from './view/ConnectFour.js';
-
+import "./App.css";
+import ConnectFour from "./view/ConnectFour.js";
 
 function App() {
   return (
     <div className="App">
-      <ConnectFour />
+      <header className="App-header">
+        <h1>Natans Connect four AI</h1>
+      </header>
+      <main>
+        <ConnectFour />
+      </main>
     </div>
   );
 }

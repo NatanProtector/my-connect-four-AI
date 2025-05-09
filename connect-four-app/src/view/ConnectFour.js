@@ -16,8 +16,10 @@ const ROWS = 6;
 const COLS = 7;
 
 const ConnectFour = () => {
-
-  const start_position = { board:Array(ROWS).fill(Array(COLS).fill(null)), turn:RED_TEXT }
+  const start_position = {
+    board: Array(ROWS).fill(Array(COLS).fill(null)),
+    turn: RED_TEXT,
+  };
 
   // const start_position = parseBoardString("------------------------R---Y--R---Y--YRRY,1")
 
@@ -31,11 +33,10 @@ const ConnectFour = () => {
   useEffect(() => {
     const handlePendingMove = async () => {
       if (currentPlayer !== "Red") {
-
         const boardString = parseBoardToString(board, currentPlayer);
-  
+
         const response_col = await transmit_move(pendingMove, boardString);
-  
+
         console.log("Response: ", response_col.response);
 
         // Wait for some time
@@ -45,71 +46,62 @@ const ConnectFour = () => {
           const parsedInt = parseInt(response_col.response, 10);
 
           make_move(parsedInt);
-    
+
           setPendingMove(null);
         }
       }
     };
-  
+
     handlePendingMove();
   }, [pendingMove]);
-  
 
   function parseBoardString(boardString) {
     // Split the input string by commas
-    const [boardPart, turnPart] = boardString.split(',');
-  
+    const [boardPart, turnPart] = boardString.split(",");
+
     // Create the 6x7 board (6 rows, 7 columns)
     const board = [];
     for (let i = 0; i < 6; i++) {
       const row = [];
       for (let j = 0; j < 7; j++) {
-        var symbol = null
+        var symbol = null;
         // Split each row by spaces
-        if (boardPart[i * 7 + j] === YELLOW_SYMBOL)
-          symbol = YELLOW_TEXT;
-        else if (boardPart[i * 7 + j] === RED_SYMBOL)
-          symbol = RED_TEXT;
+        if (boardPart[i * 7 + j] === YELLOW_SYMBOL) symbol = YELLOW_TEXT;
+        else if (boardPart[i * 7 + j] === RED_SYMBOL) symbol = RED_TEXT;
 
         row.push(symbol);
       }
       board.push(row);
     }
-  
+
     // The turn value is the second part of the string (either -1 or 1)
     const turn_int = parseInt(turnPart, 10);
-    
-    var turn = RED_TEXT
-    if (turn_int !== 1)
-      turn = YELLOW_TEXT;
-  
+
+    var turn = RED_TEXT;
+    if (turn_int !== 1) turn = YELLOW_TEXT;
+
     return { board, turn };
   }
 
   const parseBoardToString = (board, turn) => {
-    var result = ""
+    var result = "";
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
+        var symbol = "-";
+        if (board[i][j] === YELLOW_TEXT) symbol = YELLOW_SYMBOL;
+        else if (board[i][j] === RED_TEXT) symbol = RED_SYMBOL;
 
-        var symbol = '-'
-        if (board[i][j] === YELLOW_TEXT)
-          symbol = YELLOW_SYMBOL;
-        else if (board[i][j] === RED_TEXT)
-          symbol = RED_SYMBOL;
-
-        result += symbol
+        result += symbol;
       }
     }
 
-    var turn_int = "1"
-    if (turn !== RED_TEXT)
-      turn_int = "-1"
+    var turn_int = "1";
+    if (turn !== RED_TEXT) turn_int = "-1";
 
-    result += ("," + turn_int)
+    result += "," + turn_int;
 
-    return result
-  }
-  
+    return result;
+  };
 
   const checkWin = (board, row, col, player) => {
     const directions = [
@@ -124,7 +116,13 @@ const ConnectFour = () => {
       for (let i = 1; i <= 3; i++) {
         const r = row + dr * i;
         const c = col + dc * i;
-        if (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+        if (
+          r >= 0 &&
+          r < ROWS &&
+          c >= 0 &&
+          c < COLS &&
+          board[r][c] === player
+        ) {
           count++;
         } else {
           break;
@@ -133,7 +131,13 @@ const ConnectFour = () => {
       for (let i = 1; i <= 3; i++) {
         const r = row - dr * i;
         const c = col - dc * i;
-        if (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+        if (
+          r >= 0 &&
+          r < ROWS &&
+          c >= 0 &&
+          c < COLS &&
+          board[r][c] === player
+        ) {
           count++;
         } else {
           break;
@@ -153,20 +157,19 @@ const ConnectFour = () => {
         if (checkWin(newBoard, row, col, currentPlayer)) {
           setWinner(currentPlayer);
         }
-        const new_player = currentPlayer === RED_TEXT ? YELLOW_TEXT : RED_TEXT
-        setLastMove({row,col});
+        const new_player = currentPlayer === RED_TEXT ? YELLOW_TEXT : RED_TEXT;
+        setLastMove({ row, col });
         setBoard(newBoard);
         setCurrentPlayer(new_player);
         setPendingMove(col);
         return;
       }
     }
-    return
-  }
+    return;
+  };
 
   const handleClick = (col) => {
-    if (winner || currentPlayer !== RED_TEXT) 
-      return;
+    if (winner || currentPlayer !== RED_TEXT) return;
 
     make_move(col);
   };
@@ -175,61 +178,81 @@ const ConnectFour = () => {
     setBoard(Array(ROWS).fill(Array(COLS).fill(null)));
     setCurrentPlayer(RED_TEXT);
     setWinner(null);
-    setLastMove(null)
+    setLastMove(null);
   };
   const transmit_move = (col, board_string) => {
     const move = {
       col: col,
-      board_string: board_string
+      board_string: board_string,
     };
-  
+
     return new Promise((resolve, reject) => {
       // Send post request to backend
-      fetch('/move', {
-        method: 'POST',
+      fetch("/move", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(move)
+        body: JSON.stringify(move),
       })
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
             reject(`Error: ${response.statusText}`); // Reject if response is not ok
           } else {
             return response.json(); // Parse the response as JSON
           }
         })
-        .then(data => {
+        .then((data) => {
           resolve(data);
         })
-        .catch(error => {
-          console.error('Error:', error);
-          reject(error); 
+        .catch((error) => {
+          console.error("Error:", error);
+          reject(error);
         });
     });
   };
-  
 
   return (
     <div className="App">
-      <h1>Natan's Connect Four</h1>
-      {winner ? <h2>{winner} Wins!</h2> : <h2>Current Player: {currentPlayer}</h2>}
+      {winner ? (
+        <h2>
+          <span style={{ color: winner === RED_TEXT ? "red" : "yellow" }}>
+            {winner}
+          </span>
+          Wins!
+        </h2>
+      ) : (
+        <h2>
+          Current Player:{" "}
+          <span
+            style={{ color: currentPlayer === RED_TEXT ? "red" : "yellow" }}
+          >
+            {currentPlayer}
+          </span>
+        </h2>
+      )}
       <div className="board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="row">
-            {
-
-            row.map((cell, colIndex) => (
+            {row.map((cell, colIndex) => (
               <div
                 key={colIndex}
-                className={`cell ${cell} ${lastMove && lastMove.col === colIndex && lastMove.row === rowIndex ? "highlight" : ""}`}
+                className={`cell ${cell} ${
+                  lastMove &&
+                  lastMove.col === colIndex &&
+                  lastMove.row === rowIndex
+                    ? "highlight"
+                    : ""
+                }`}
                 onClick={() => handleClick(colIndex)}
               ></div>
             ))}
           </div>
         ))}
       </div>
-      <button onClick={resetGame}>Reset Game</button>
+      <button className="restart-button" onClick={resetGame}>
+        Reset Game
+      </button>
     </div>
   );
 };
